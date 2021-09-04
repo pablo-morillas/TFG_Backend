@@ -10,17 +10,20 @@ public class UsuarioDTO {
 
     private String email;
 
+    private String userRole;
+
 
 
 
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String nombre,String username,String password,String email) {
+    public UsuarioDTO(String nombre,String username,String password,String email, String userRole) {
         this.nombre = nombre;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.userRole = userRole;
     }
 
     public UsuarioDTO(String email){
@@ -59,4 +62,11 @@ public class UsuarioDTO {
         this.email = email;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
 }

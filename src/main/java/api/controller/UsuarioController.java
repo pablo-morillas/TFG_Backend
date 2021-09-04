@@ -1,9 +1,8 @@
 package api.controller;
 
 import api.dto.*;
-import api.services.ProfesorServices;
+import api.services.UsuarioServices;
 import com.ja.security.PasswordHash;
-import entities.Profesor;
 import entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,18 +18,18 @@ import java.util.List;
 import static com.tfg.Project.GestorUsuarios.*;
 
 @RestController
-@RequestMapping(value="/api/profesores")
-public class ProfesorController {
+@RequestMapping(value="/api/usuarios")
+public class UsuarioController {
 
     @Autowired
-    @Qualifier("profesorservices")
-    private ProfesorServices profesorServices;
+    @Qualifier("usuarioservices")
+    private UsuarioServices usuarioServices;
 
     public static final String HEADER_AUTHORIZATION_KEY = "Authorization";
 
     //UPDATE CONTRASEÑA
     @PutMapping(value= "/{email}/forgot")
-    public ResponseEntity<Void> updatePasswordprofesor(@RequestBody UsuarioUpdatePasswordDTO usuarioUpdatePasswordDTO, @PathVariable(name="email") String email,
+    public ResponseEntity<Void> updatePasswordUsuario(@RequestBody UsuarioUpdatePasswordDTO usuarioUpdatePasswordDTO, @PathVariable(name="email") String email,
                                                       @RequestHeader(name="Authorization",required = false) String token) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
         try{
@@ -42,25 +41,25 @@ public class ProfesorController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Profesor profesor = profesorServices.findByEmail(email);
-        if (profesor == null){
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if(!profesorServices.login(email, usuarioUpdatePasswordDTO.getOldPassword())){
+        if(!usuarioServices.login(email, usuarioUpdatePasswordDTO.getOldPassword())){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         String hashedPassword = new PasswordHash().createHash(usuarioUpdatePasswordDTO.getNewPassword());
-        profesor.setPassword(hashedPassword);
+        usuario.setPassword(hashedPassword);
 
-        profesorServices.updateProfesor(profesor);
+        usuarioServices.updateUsuario(usuario);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
     //UPDATE CAMPOS
     @PutMapping(value= "/{email}")
-    public ResponseEntity<Void> updateCamposProfesor(@RequestBody UsuarioUpdateCamposDTO usuarioUpdateCamposDTO, @PathVariable(name="email") String email,
+    public ResponseEntity<Void> updateCamposUsuario(@RequestBody UsuarioUpdateCamposDTO usuarioUpdateCamposDTO, @PathVariable(name="email") String email,
                                                     @RequestHeader(name="Authorization",required = false) String token) {
 
         try{
@@ -72,66 +71,67 @@ public class ProfesorController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Profesor profesor = profesorServices.findByEmail(email);
-        if (profesor == null){
+        Usuario  usuario = usuarioServices.findByEmail(email);
+        if (usuario == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        profesor.setUsername(usuarioUpdateCamposDTO.getUsername());
-        profesor.setNombre(usuarioUpdateCamposDTO.getNombre());
+        usuario.setUsername(usuarioUpdateCamposDTO.getUsername());
+        usuario.setNombre(usuarioUpdateCamposDTO.getNombre());
 
-        profesorServices.updateProfesor(profesor);
+        usuarioServices.updateUsuario(usuario);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
-    // - Get todos los Alumnos
+    // - Get todos los Usuarios
     @GetMapping(value = "")
-    public ResponseEntity<List<Profesor>> getProfesores(@RequestHeader(name = "Authorization", required = false) String token) {
+    public ResponseEntity<List<Usuario>> getUsuarios(@RequestHeader(name = "Authorization", required = false) String token) {
         try {
             decodeJWT(token);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        List<Profesor> alumnos = profesorServices.findAllProfesor();
-        if (alumnos == null) {
+        List<Usuario> usuarios = usuarioServices.findAllUsuario();
+        if (usuarios == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(alumnos, HttpStatus.OK);
+            return new ResponseEntity<>(usuarios, HttpStatus.OK);
         }
     }
 
     //READ USER
     @GetMapping(value = "/{email}")
-    public ResponseEntity<UsuarioAuxiliarDTO> getAlumnoByEmail(@PathVariable(name = "email") String email) {
-        Usuario usuario = profesorServices.findByEmail(email);
+    public ResponseEntity<UsuarioAuxiliarDTO> getUsuarioByEmail(@PathVariable(name = "email") String email) {
+        Usuario usuario = usuarioServices.findByEmail(email);
         if (usuario == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            UsuarioAuxiliarDTO usuarioAmigo = new UsuarioAuxiliarDTO(usuario);
+            UsuarioAuxiliarDTO usuarioAux = new UsuarioAuxiliarDTO(usuario);
 
-            return new ResponseEntity<>(usuarioAmigo, HttpStatus.OK);
+            return new ResponseEntity<>(usuarioAux, HttpStatus.OK);
         }
     }
 
     //CREATE USER
     @PostMapping(value = "")
-    public ResponseEntity<String> addAlumno(@RequestBody AlumnoDTO userDTO) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public ResponseEntity<String> addUsuario(@RequestBody UsuarioDTO userDTO) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
-        Profesor profe = new Profesor();
+        Usuario user = new Usuario();
 
-        profe.setUsername(userDTO.getUsername());
-        profe.setPassword(hashedPassword(userDTO.getPassword()));
-        profe.setEmail(userDTO.getEmail());
-        profe.setNombre(userDTO.getNombre());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(hashedPassword(userDTO.getPassword()));
+        user.setEmail(userDTO.getEmail());
+        user.setNombre(userDTO.getNombre());
+        user.setUserRole(userDTO.getUserRole());
 
-        Profesor profesorExistente = profesorServices.findByEmail(profe.getEmail());
-        if (profesorExistente == null) {
-            if (profesorServices.findByUsername(profe.getUsername()) != null) {
+        Usuario usuarioExistente = usuarioServices.findByEmail(user.getEmail());
+        if (usuarioExistente == null) {
+            if (usuarioServices.findByUsername(user.getUsername()) != null) {
                 return new ResponseEntity<>("username", HttpStatus.BAD_REQUEST);
             }
-            profesorServices.altaProfesor(profe);
-            String token = createToken(profe.getEmail());
+            usuarioServices.altaUsuario(user);
+            String token = createToken(user.getEmail());
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add(HEADER_AUTHORIZATION_KEY, token);
             return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
@@ -142,7 +142,7 @@ public class ProfesorController {
     //LOGIN
     @PostMapping(value = "/login")
     public ResponseEntity<Void> loginRequest(@RequestBody LoginBody login) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        if (profesorServices.login(login.getEmail(), login.getPassword())) { // Llamada a gestorUsuarios
+        if (usuarioServices.login(login.getEmail(), login.getPassword())) { // Llamada a gestorUsuarios
             String token = createToken(login.getEmail());
             HttpHeaders headers = new HttpHeaders();
             headers.add(HEADER_AUTHORIZATION_KEY, token);
@@ -162,11 +162,11 @@ public class ProfesorController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (profesorServices.findByEmail(email) == null) {
+        if (usuarioServices.findByEmail(email) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             boolean delete;
-            delete = profesorServices.deleteProfesorByEmail(email);
+            delete = usuarioServices.deleteUsuarioByEmail(email);
             if (delete) {
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
