@@ -16,11 +16,11 @@ import java.util.List;
 import static com.tfg.Project.GestorUsuarios.*;
 
 @RestController
-@RequestMapping(value="/api/tests")
+@RequestMapping(value="/api/email")
 public class TestController {
 
     @Autowired
-    @Qualifier("testsservices")
+    @Qualifier("testservices")
     private TestServices testServices;
 
     public static final String HEADER_AUTHORIZATION_KEY = "Authorization";

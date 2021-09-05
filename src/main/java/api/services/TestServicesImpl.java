@@ -19,7 +19,7 @@ import static com.tfg.Project.GestorUsuarios.validatePassword;
 public class TestServicesImpl implements TestServices {
 
     @Autowired
-    @Qualifier("usuariorepository")
+    @Qualifier("testrepository")
     private TestDAO testDAO;
 
     @Override

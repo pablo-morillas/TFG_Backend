@@ -40,6 +40,11 @@ public class Usuario implements Serializable {
     private Set<Clase> clases;
 
 
+    @ManyToMany()
+    @JoinColumn(nullable = false,insertable = false)
+    private Set<Clase> clasePertany;
+
+
     public Usuario(){
     }
 

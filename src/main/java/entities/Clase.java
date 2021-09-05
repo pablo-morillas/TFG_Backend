@@ -4,89 +4,62 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="preguntas")
+@Table(name="clases")
 public class Clase implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
-    @Column(name="respuestacorrecta")
-    private String respuestaCorrecta;
-
-    @Column(name="respuestaincorrecta1")
-    private String respuestaIncorrecta1;
-
-    @Column(name="respuestaincorrecta2")
-    private String respuestaIncorrecta2;
-
-    @Column(name="respuestaincorrecta3")
-    private String respuestaIncorrecta3;
-
     @ManyToOne
     @JoinColumn(name = "emailprofesor" ,insertable = false, updatable = false)
-    Usuario usuario;
+    private Usuario profesor;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "claseid", referencedColumnName = "id")
     @JsonIgnore
     private Set<Test> tests;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "clases", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private Set<Usuario> participantes = new HashSet<>();
+
 
     public Clase(){
     }
 
-    public Clase(String respuestaCorrecta, String respuestaIncorrecta1, String respuestaIncorrecta2, String respuestaIncorrecta3) {
-        this.respuestaCorrecta = respuestaCorrecta;
-        this.respuestaIncorrecta1 = respuestaIncorrecta1;
-        this.respuestaIncorrecta2 = respuestaIncorrecta2;
-        this.respuestaIncorrecta3 = respuestaIncorrecta3;
+    public Clase(Usuario profesor) {
+        this.profesor = profesor;
     }
 
 
-    @Override
-    public String toString() {
-        return "Pregunta{" +
-                ", respuestacorrecta='" + respuestaCorrecta + '\'' +
-                ", respuestaincorrecta1='" + respuestaIncorrecta1 + '\'' +
-                ", respuestaincorrecta2='" + respuestaIncorrecta2 + '\'' +
-                ", respuestaincorrecta3='" + respuestaIncorrecta3 + '\'' +
-                '}';
+    public Usuario getProfesor() {
+        return profesor;
     }
 
-
-    public String getRespuestaCorrecta() {
-        return respuestaCorrecta;
+    public void setProfesor(Usuario profesor) {
+        this.profesor = profesor;
     }
 
-    public void setRespuestaCorrecta(String respuestaCorrecta) {
-        this.respuestaCorrecta = respuestaCorrecta;
+    public Set<Usuario> getAlumnos() {
+        return participantes;
     }
 
-    public String getRespuestaIncorrecta1() {
-        return respuestaIncorrecta1;
+    public void addAlumno(Usuario alumno){
+        this.participantes.add(alumno);
     }
 
-    public void setRespuestaIncorrecta1(String respuestaIncorrecta1) {
-        this.respuestaIncorrecta1 = respuestaIncorrecta1;
+    public Set<Test> getTests() {
+        return tests;
     }
 
-    public String getRespuestaIncorrecta2() {
-        return respuestaIncorrecta2;
-    }
-
-    public void setRespuestaIncorrecta2(String respuestaIncorrecta2) {
-        this.respuestaIncorrecta2 = respuestaIncorrecta2;
-    }
-
-    public String getRespuestaIncorrecta3() {
-        return respuestaIncorrecta3;
-    }
-
-    public void setRespuestaIncorrecta3(String respuestaIncorrecta3) {
-        this.respuestaIncorrecta3 = respuestaIncorrecta3;
+    public void addTest(Test test){
+        this.tests.add(test);
     }
 }
