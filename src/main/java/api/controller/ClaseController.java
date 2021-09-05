@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceException;
 import java.util.Set;
 
 @RestController
@@ -42,16 +43,20 @@ public class ClaseController {
 
     //CREATE Clase
     @PostMapping(value = "")
-    public ResponseEntity<String> addClase(@RequestBody ClaseDTO claseDTO) {
+    public ResponseEntity<Clase> addClase(@RequestBody ClaseDTO claseDTO, @PathVariable(name="email") String email) {
 
         Clase clase = new Clase();
 
-        clase.setProfesor(claseDTO.getProfesor());
+        clase.setProfesor(usuarioServices.findByEmail(email));
+        clase.setNombre(claseDTO.getNombre());
 
-        claseServices.altaClase(clase);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-
+        try {
+            claseServices.altaClase(clase);
+        }
+        catch(PersistenceException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(clase,HttpStatus.CREATED);
     }
 
 

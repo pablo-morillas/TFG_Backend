@@ -17,9 +17,14 @@ public class Clase implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
+
+    @Column(name = "nombre")
+    private String nombre;
+
     @ManyToOne
-    @JoinColumn(name = "emailprofesor" ,insertable = false, updatable = false)
+    @JoinColumn(name = "profesor" ,insertable = false, updatable = false)
     private Usuario profesor;
+
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "claseid", referencedColumnName = "id")
@@ -34,8 +39,9 @@ public class Clase implements Serializable {
     public Clase(){
     }
 
-    public Clase(Usuario profesor) {
+    public Clase(Usuario profesor, String nombre) {
         this.profesor = profesor;
+        this.nombre = nombre;
     }
 
 
@@ -65,5 +71,13 @@ public class Clase implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

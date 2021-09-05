@@ -35,7 +35,7 @@ public class Usuario implements Serializable {
     private String userRole;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "emailprofesor", referencedColumnName = "email")
+    @JoinColumn(name = "profesor", referencedColumnName = "email")
     @JsonIgnore
     private Set<Clase> clases;
 

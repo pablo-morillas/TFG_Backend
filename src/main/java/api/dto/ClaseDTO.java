@@ -8,33 +8,24 @@ import java.util.Set;
 
 public class ClaseDTO {
 
-    private Usuario profesor;
 
-    private Set<Test> tests;
+    private String nombre;
+
 
     public ClaseDTO() {
     }
 
-    public ClaseDTO(Usuario profesor, Set<Test> tests) {
-        this.profesor = profesor;
-        this.tests = tests;
+    public ClaseDTO(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Set<Test> getTests() {
-        return tests;
+
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTests(Set<Test> tests) {
-        this.tests = tests;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
-
-    public Usuario getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Usuario profesor) {
-        this.profesor = profesor;
-    }
-
 }
 
