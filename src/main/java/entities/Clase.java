@@ -62,4 +62,8 @@ public class Clase implements Serializable {
     public void addTest(Test test){
         this.tests.add(test);
     }
+
+    public int getId() {
+        return id;
+    }
 }

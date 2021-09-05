@@ -1,24 +1,23 @@
 package api.controller;
 
-import api.dto.*;
+import api.dto.ClaseDTO;
+import api.dto.TestDTO;
 import api.services.ClaseServices;
 import api.services.TestServices;
 import api.services.UsuarioServices;
 import entities.Clase;
 import entities.Test;
-
+import entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.Set;
 
 @RestController
-@RequestMapping(value="/api/{email}/{claseid}/tests")
-public class TestController {
+@RequestMapping(value="/api/{email}/clases")
+public class ClaseController {
 
     @Autowired
     private UsuarioServices usuarioServices;
@@ -26,48 +25,48 @@ public class TestController {
     @Autowired
     private ClaseServices claseServices;
 
-    @Autowired
-    private TestServices testServices;
 
 
-    // - Get todos los tests
+    // - Get todos las clases
     @GetMapping(value = "")
-    public ResponseEntity<Set<Test>> getTestsClase(@PathVariable(name="claseid") int claseid) {
+    public ResponseEntity<Set<Clase>> getClasesUsuario(@PathVariable(name="email") String email) {
 
-        Clase clase = claseServices.findById(claseid);
+        Usuario usuario = usuarioServices.findByEmail(email);
 
-        if (clase == null) {
+        if (usuario == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(clase.getTests(), HttpStatus.OK);
+            return new ResponseEntity<>(usuario.getClases(), HttpStatus.OK);
         }
     }
 
-    //CREATE Test
+    //CREATE Clase
     @PostMapping(value = "")
-    public ResponseEntity<String> addTest(@RequestBody TestDTO testDTO) {
+    public ResponseEntity<String> addClase(@RequestBody ClaseDTO claseDTO) {
 
-        Test test = new Test();
+        Clase clase = new Clase();
 
-        test.setPreguntas(testDTO.getPreguntas());
-        testServices.altaTest(test);
+        clase.setProfesor(claseDTO.getProfesor());
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        claseServices.altaClase(clase);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
 
-    //DELETE Test
+    //DELETE Clase
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteTest(@PathVariable(name = "id") int id) {
 
 
-        Test test;
-        if (testServices.findById(id) == null) {
+        Clase clase;
+        if (claseServices.findById(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             boolean delete;
-            test = testServices.findById(id);
-            delete = testServices.deleteTest(test);
+            clase = claseServices.findById(id);
+            delete = claseServices.deleteClase(clase);
             if (delete) {
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
