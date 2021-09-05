@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name="usuarios")
@@ -32,6 +33,11 @@ public class Usuario implements Serializable {
 
     @Column(name="userrole")
     private String userRole;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "emailusuario", referencedColumnName = "email")
+    @JsonIgnore
+    private Set<Test> tests;
 
 
     public Usuario(){
@@ -109,4 +115,11 @@ public class Usuario implements Serializable {
                 '}';
     }
 
+    public Set<Test> getTests() {
+        return tests;
+    }
+
+    public void addTest(Test test) {
+        this.tests.add(test);
+    }
 }
