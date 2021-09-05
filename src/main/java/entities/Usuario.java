@@ -35,9 +35,9 @@ public class Usuario implements Serializable {
     private String userRole;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "emailusuario", referencedColumnName = "email")
+    @JoinColumn(name = "emailprofesor", referencedColumnName = "email")
     @JsonIgnore
-    private Set<Test> tests;
+    private Set<Clase> clases;
 
 
     public Usuario(){
@@ -115,11 +115,11 @@ public class Usuario implements Serializable {
                 '}';
     }
 
-    public Set<Test> getTests() {
-        return tests;
+    public Set<Clase> getClases() {
+        return clases;
     }
 
-    public void addTest(Test test) {
-        this.tests.add(test);
+    public void addClase(Clase clase) {
+        this.clases.add(clase);
     }
 }

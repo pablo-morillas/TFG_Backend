@@ -2,8 +2,6 @@ package entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import entities.Pregunta;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -26,8 +24,8 @@ public class Test implements Serializable {
 
 
     @ManyToOne
-    @JoinColumn(name = "emailusuario" ,insertable = false, updatable = false)
-    Usuario admin;
+    @JoinColumn(name = "claseid" ,insertable = false, updatable = false)
+    Clase clase;
 
 
     public Test(){
