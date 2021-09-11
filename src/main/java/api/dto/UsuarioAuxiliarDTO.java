@@ -12,7 +12,6 @@ public class UsuarioAuxiliarDTO {
 
     private String username;
 
-
     private String email;
 
     public String getAvatar() {

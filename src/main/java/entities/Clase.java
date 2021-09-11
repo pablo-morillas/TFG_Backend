@@ -22,7 +22,6 @@ public class Clase implements Serializable {
     private String nombre;
 
     @ManyToOne
-    @JoinColumn(name = "profesor" ,insertable = false, updatable = false)
     private Usuario profesor;
 
 
@@ -32,7 +31,7 @@ public class Clase implements Serializable {
     private Set<Test> tests;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "clases", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany()
     private Set<Usuario> participantes = new HashSet<>();
 
 
@@ -79,5 +78,15 @@ public class Clase implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Clase{" +
+                ", nombre='" + nombre + '\'' +
+                ", profesor='" + profesor + '\'' +
+                ", tests='" + tests + '\'' +
+                ", alumnos='" + participantes + '\'' +
+                '}';
     }
 }

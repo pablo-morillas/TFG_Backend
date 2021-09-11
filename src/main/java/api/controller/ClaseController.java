@@ -47,6 +47,9 @@ public class ClaseController {
 
         Clase clase = new Clase();
 
+        if(usuarioServices.findByEmail(email) == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         clase.setProfesor(usuarioServices.findByEmail(email));
         clase.setNombre(claseDTO.getNombre());
 

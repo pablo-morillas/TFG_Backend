@@ -34,14 +34,12 @@ public class Usuario implements Serializable {
     @Column(name="userrole")
     private String userRole;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profesor", referencedColumnName = "email")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="profesor")
     @JsonIgnore
     private Set<Clase> clases;
 
 
-    @ManyToMany()
-    @JoinColumn(nullable = false,insertable = false)
+    @ManyToMany(mappedBy = "participantes", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Clase> clasePertany;
 
 
