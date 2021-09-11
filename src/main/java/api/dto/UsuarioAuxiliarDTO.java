@@ -12,7 +12,6 @@ public class UsuarioAuxiliarDTO {
 
     private String username;
 
-
     private String email;
 
     public String getAvatar() {
@@ -55,16 +54,6 @@ public class UsuarioAuxiliarDTO {
         this.image = image;
     }
 
-    public String getFirebaseToken() {
-        return firebaseToken;
-    }
-
-    public void setFirebaseToken(String firebaseToken) {
-        this.firebaseToken = firebaseToken;
-    }
-
-    private String firebaseToken;
-
 
     public UsuarioAuxiliarDTO() {
     }
@@ -78,7 +67,6 @@ public class UsuarioAuxiliarDTO {
         this.avatar = user.getAvatar();
         this.image = user.getImage();
         this.avatar = user.getAvatar();
-        this.firebaseToken = user.getFirebaseToken();
     }
 
     public String getNombre() {

@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
-@MappedSuperclass
+@Entity
 @Table(name="usuarios")
-
 public class Usuario implements Serializable {
 
     @Column(name="nombre")
@@ -31,18 +31,27 @@ public class Usuario implements Serializable {
     @Column(name="avatarimage")
     private String avatar;
 
-    @Column(name="firebase_token")
-    private String firebaseToken;
+    @Column(name="userrole")
+    private String userRole;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="profesor")
+    @JsonIgnore
+    private Set<Clase> clases;
+
+
+    @ManyToMany(mappedBy = "participantes", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Clase> clasePertany;
 
 
     public Usuario(){
     }
 
-    public Usuario(String nombre,String username,String password,String email) {
+    public Usuario(String nombre,String username,String password,String email, String userRole) {
         this.nombre = nombre;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.userRole = userRole;
     }
 
     public void setAvatar(String avatar) {
@@ -89,12 +98,12 @@ public class Usuario implements Serializable {
 
     public byte[] getImage() { return image; }
 
-    public String getFirebaseToken() {
-        return firebaseToken;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setFirebaseToken(String firebaseToken) {
-        this.firebaseToken = firebaseToken;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
 
@@ -105,7 +114,15 @@ public class Usuario implements Serializable {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", userrole='" + userRole + '\'' +
                 '}';
     }
 
+    public Set<Clase> getClases() {
+        return clases;
+    }
+
+    public void addClase(Clase clase) {
+        this.clases.add(clase);
+    }
 }
