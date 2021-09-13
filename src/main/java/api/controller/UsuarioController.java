@@ -113,6 +113,20 @@ public class UsuarioController {
         }
     }
 
+    //GET METRICAS DE PUNTUACION
+
+    @GetMapping(value = "/{email}/puntuaciones")
+    public ResponseEntity<UsuarioPuntosDTO> getPuntuacionesUsuario(@PathVariable(name = "email") String email) {
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            UsuarioPuntosDTO usuarioAux = new UsuarioPuntosDTO(usuario);
+
+            return new ResponseEntity<>(usuarioAux, HttpStatus.OK);
+        }
+    }
+
     //CREATE USER
     @PostMapping(value = "")
     public ResponseEntity<String> addUsuario(@RequestBody UsuarioDTO userDTO) throws InvalidKeySpecException, NoSuchAlgorithmException {

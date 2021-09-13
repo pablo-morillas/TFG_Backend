@@ -25,6 +25,18 @@ public class Usuario implements Serializable {
     @JsonIgnore
     private String password;
 
+    @Column(name="puntuación")
+    private int puntuacion = 0;
+
+    @Column(name="maxpuntuación")
+    private int maxPuntuacion = 0;
+
+    @Column(name="testsrealizados")
+    private int testsRealizados = 0;
+
+    @Column(name="testspendientes")
+    private int testsPendientes = 0;
+
     @Column(name="profileimage")
     private byte[] image;
 
@@ -124,5 +136,37 @@ public class Usuario implements Serializable {
 
     public void addClase(Clase clase) {
         this.clases.add(clase);
+    }
+
+    public int getPuntuacion() {
+        return puntuacion;
+    }
+
+    public void setPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public int getMaxpuntuacion() {
+        return maxPuntuacion;
+    }
+
+    public void setMaxpuntuacion(int maxPuntuacion) {
+        this.maxPuntuacion = maxPuntuacion;
+    }
+
+    public int getTestsRealizados() {
+        return testsRealizados;
+    }
+
+    public void addTestsRealizados() {
+        this.testsRealizados++;
+    }
+
+    public int getTestsPendientes() {
+        return testsPendientes;
+    }
+
+    public void addTestsPendientes() {
+        this.testsPendientes++;
     }
 }
