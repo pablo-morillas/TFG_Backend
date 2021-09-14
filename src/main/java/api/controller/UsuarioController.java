@@ -3,6 +3,7 @@ package api.controller;
 import api.dto.*;
 import api.services.UsuarioServices;
 import com.ja.security.PasswordHash;
+import entities.Clase;
 import entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -124,6 +125,20 @@ public class UsuarioController {
             UsuarioPuntosDTO usuarioAux = new UsuarioPuntosDTO(usuario);
 
             return new ResponseEntity<>(usuarioAux, HttpStatus.OK);
+        }
+    }
+
+    //GET CLASES PARTICIPANTE
+
+    @GetMapping(value = "/{email}/aulas")
+    public ResponseEntity<List<Clase>> getAulasUsuario(@PathVariable(name = "email") String email) {
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            List<Clase> aulas = usuario.getClases();
+
+            return new ResponseEntity<>(aulas, HttpStatus.OK);
         }
     }
 

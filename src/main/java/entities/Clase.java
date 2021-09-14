@@ -22,7 +22,7 @@ public class Clase implements Serializable {
     private String nombre;
 
     @ManyToOne
-    private Usuario profesor;
+    private String profesor;
 
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -38,17 +38,17 @@ public class Clase implements Serializable {
     public Clase(){
     }
 
-    public Clase(Usuario profesor, String nombre) {
+    public Clase(String profesor, String nombre) {
         this.profesor = profesor;
         this.nombre = nombre;
     }
 
 
-    public Usuario getProfesor() {
+    public String getProfesor() {
         return profesor;
     }
 
-    public void setProfesor(Usuario profesor) {
+    public void setProfesor(String profesor) {
         this.profesor = profesor;
     }
 
@@ -85,8 +85,6 @@ public class Clase implements Serializable {
         return "Clase{" +
                 ", nombre='" + nombre + '\'' +
                 ", profesor='" + profesor + '\'' +
-                ", tests='" + tests + '\'' +
-                ", alumnos='" + participantes + '\'' +
                 '}';
     }
 }
