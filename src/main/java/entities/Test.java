@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,23 +18,20 @@ public class Test implements Serializable {
     @Column(name="nombre")
     private String nombre;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "testid", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="test")
     @JsonIgnore
-    private Set<Pregunta> preguntas;
+    private List<Pregunta> preguntas;
 
 
     @ManyToOne
-    @JoinColumn(name = "claseid" ,insertable = false, updatable = false)
-    Clase clase;
+    private Clase clase;
 
 
     public Test(){
     }
 
-    public Test(String nombre, Set<Pregunta> preguntas) {
+    public Test(String nombre) {
         this.nombre = nombre;
-        this.preguntas = preguntas;
     }
 
 
@@ -46,11 +44,19 @@ public class Test implements Serializable {
                 '}';
     }
 
-    public Set<Pregunta> getPreguntas() {
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public List<Pregunta> getPreguntas() {
         return preguntas;
     }
 
-    public void setPreguntas(Set<Pregunta> preguntas){
+    public void setPreguntas(List<Pregunta> preguntas){
         this.preguntas = preguntas;
     }
 
@@ -61,4 +67,13 @@ public class Test implements Serializable {
     public int getId() {
         return id;
     }
+
+    public Clase getClase(){
+        return clase;
+    }
+
+    public void setClase(Clase clase){
+        this.clase = clase;
+    }
+
 }

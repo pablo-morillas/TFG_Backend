@@ -13,41 +13,46 @@ public class Pregunta implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
+    @Column(name="text")
+    private String text;
+
     @Column(name="respuestacorrecta")
     private String respuestaCorrecta;
 
-    @Column(name="respuestaincorrecta1")
-    private String respuestaIncorrecta1;
+    @Column(name="respuesta1")
+    private String respuesta1;
 
-    @Column(name="respuestaincorrecta2")
-    private String respuestaIncorrecta2;
+    @Column(name="respuesta2")
+    private String respuesta2;
 
-    @Column(name="respuestaincorrecta3")
-    private String respuestaIncorrecta3;
+    @Column(name="respuesta3")
+    private String respuesta3;
 
     @ManyToOne
-    @JoinColumn(name = "testid" ,insertable = false, updatable = false)
-    Test testId;
+    private Test test;
+
 
 
     public Pregunta(){
     }
 
-    public Pregunta(String respuestaCorrecta, String respuestaIncorrecta1, String respuestaIncorrecta2, String respuestaIncorrecta3) {
+    public Pregunta(String text, String respuestaCorrecta, String respuesta1, String respuesta2, String respuesta3) {
+        this.text = text;
         this.respuestaCorrecta = respuestaCorrecta;
-        this.respuestaIncorrecta1 = respuestaIncorrecta1;
-        this.respuestaIncorrecta2 = respuestaIncorrecta2;
-        this.respuestaIncorrecta3 = respuestaIncorrecta3;
+        this.respuesta1 = respuesta1;
+        this.respuesta2 = respuesta2;
+        this.respuesta3 = respuesta3;
     }
 
 
     @Override
     public String toString() {
         return "Pregunta{" +
+                ", text='" + text + '\'' +
                 ", respuestacorrecta='" + respuestaCorrecta + '\'' +
-                ", respuestaincorrecta1='" + respuestaIncorrecta1 + '\'' +
-                ", respuestaincorrecta2='" + respuestaIncorrecta2 + '\'' +
-                ", respuestaincorrecta3='" + respuestaIncorrecta3 + '\'' +
+                ", respuesta1='" + respuesta1 + '\'' +
+                ", respuesta2='" + respuesta2 + '\'' +
+                ", respuesta3='" + respuesta3 + '\'' +
                 '}';
     }
 
@@ -61,26 +66,46 @@ public class Pregunta implements Serializable {
     }
 
     public String getRespuestaIncorrecta1() {
-        return respuestaIncorrecta1;
+        return respuesta1;
     }
 
-    public void setRespuestaIncorrecta1(String respuestaIncorrecta1) {
-        this.respuestaIncorrecta1 = respuestaIncorrecta1;
+    public void setRespuestaIncorrecta1(String respuesta1) {
+        this.respuesta1 = respuesta1;
     }
 
     public String getRespuestaIncorrecta2() {
-        return respuestaIncorrecta2;
+        return respuesta2;
     }
 
-    public void setRespuestaIncorrecta2(String respuestaIncorrecta2) {
-        this.respuestaIncorrecta2 = respuestaIncorrecta2;
+    public void setRespuestaIncorrecta2(String respuesta2) {
+        this.respuesta2 = respuesta2;
     }
 
     public String getRespuestaIncorrecta3() {
-        return respuestaIncorrecta3;
+        return respuesta3;
     }
 
-    public void setRespuestaIncorrecta3(String respuestaIncorrecta3) {
-        this.respuestaIncorrecta3 = respuestaIncorrecta3;
+    public void setRespuestaIncorrecta3(String respuesta3) {
+        this.respuesta3 = respuesta3;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public String getTextoPregunta() {
+        return text;
+    }
+
+    public void setTextoPregunta(String textoPregunta) {
+        this.text = textoPregunta;
+    }
+
+    public void setTestId(Test test) {
+        this.test = test;
     }
 }

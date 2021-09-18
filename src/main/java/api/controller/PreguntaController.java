@@ -1,25 +1,24 @@
 package api.controller;
 
-import api.dto.*;
+import api.dto.PreguntaDTO;
 import api.services.ClaseServices;
+import api.services.PreguntaServices;
 import api.services.TestServices;
 import api.services.UsuarioServices;
 import entities.Clase;
+import entities.Pregunta;
 import entities.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value="/api/{email}/{claseid}/tests")
-public class TestController {
+@RequestMapping(value="/api/{email}/{claseid}/{testid}")
+public class PreguntaController {
 
     @Autowired
     private UsuarioServices usuarioServices;
@@ -30,31 +29,40 @@ public class TestController {
     @Autowired
     private TestServices testServices;
 
+    @Autowired
+    private PreguntaServices preguntaServices;
 
-    // - Get todos los tests
-    @GetMapping(value = "")
-    public ResponseEntity<List<Test>> getTestsClase(@PathVariable(name="claseid") int claseid) {
 
-        Clase clase = claseServices.findById(claseid);
+    // - Get todos las preguntas
+    @GetMapping(value = "/preguntas")
+    public ResponseEntity<List<Pregunta>> getPreguntasTest(@PathVariable(name="testid") int testid) {
 
-        if (clase == null) {
+        Test test = testServices.findById(testid);
+
+        if (test == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(clase.getTests(), HttpStatus.OK);
+            return new ResponseEntity<>(test.getPreguntas(), HttpStatus.OK);
         }
     }
 
-    //CREATE Test
+    //CREATE Pregunta
     @PostMapping(value = "")
-    public ResponseEntity<Test> addTest(@RequestBody TestDTO testDTO, @PathVariable(name="claseid") int claseid) {
+    public ResponseEntity<String> addTest(@RequestBody PreguntaDTO preguntaDTO, @PathVariable(name="testid") int testid) {
 
-        Test test = new Test();
+        Pregunta pregunta = new Pregunta();
 
-        test.setNombre(testDTO.getNombre());
-        test.setClase(claseServices.findById(claseid));
-        testServices.altaTest(test);
+        pregunta.setTextoPregunta(preguntaDTO.getText());
+        pregunta.setRespuestaCorrecta(preguntaDTO.getRespuestaCorrecta());
+        pregunta.setRespuestaIncorrecta1(preguntaDTO.getRespuestaIncorrecta1());
+        pregunta.setRespuestaIncorrecta2(preguntaDTO.getRespuestaIncorrecta2());
+        pregunta.setRespuestaIncorrecta3(preguntaDTO.getRespuestaIncorrecta3());
 
-        return new ResponseEntity<>(test, HttpStatus.CREATED);
+        pregunta.setTestId(testServices.findById(testid));
+
+        preguntaServices.altaPregunta(pregunta);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 

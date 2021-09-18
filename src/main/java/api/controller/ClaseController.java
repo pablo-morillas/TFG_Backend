@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.PersistenceException;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -30,7 +31,7 @@ public class ClaseController {
 
     // - Get todos las clases
     @GetMapping(value = "")
-    public ResponseEntity<Set<Clase>> getClasesUsuario(@PathVariable(name="email") String email) {
+    public ResponseEntity<List<Clase>> getClasesUsuario(@PathVariable(name="email") String email) {
 
         Usuario usuario = usuarioServices.findByEmail(email);
 
@@ -40,6 +41,21 @@ public class ClaseController {
             return new ResponseEntity<>(usuario.getClases(), HttpStatus.OK);
         }
     }
+
+    // - Get todos las clases
+    @GetMapping(value = "Part")
+    public ResponseEntity<List<Clase>> getClasesParticipantes(@PathVariable(name="email") String email) {
+
+        Usuario usuario = usuarioServices.findByEmail(email);
+
+        if (usuario == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(usuario.getClasesPertany(), HttpStatus.OK);
+        }
+    }
+
+
 
     //CREATE Clase
     @PostMapping(value = "")

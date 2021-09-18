@@ -25,10 +25,10 @@ public class Clase implements Serializable {
     private Usuario profesor;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "claseid", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="clase")
     @JsonIgnore
-    private Set<Test> tests;
+    private List<Test> tests;
+
 
     @JsonIgnore
     @ManyToMany()
@@ -60,7 +60,7 @@ public class Clase implements Serializable {
         this.participantes.add(alumno);
     }
 
-    public Set<Test> getTests() {
+    public List<Test> getTests() {
         return tests;
     }
 

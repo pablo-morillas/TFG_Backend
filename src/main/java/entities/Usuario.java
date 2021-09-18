@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,11 +49,11 @@ public class Usuario implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="profesor")
     @JsonIgnore
-    private Set<Clase> clases;
+    private List<Clase> clases;
 
 
     @ManyToMany(mappedBy = "participantes", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Clase> clasePertany;
+    private List<Clase> clasePertany;
 
 
     public Usuario(){
@@ -130,12 +131,20 @@ public class Usuario implements Serializable {
                 '}';
     }
 
-    public Set<Clase> getClases() {
+    public List<Clase> getClases() {
         return clases;
     }
 
     public void addClase(Clase clase) {
         this.clases.add(clase);
+    }
+
+    public List<Clase> getClasesPertany() {
+        return clasePertany;
+    }
+
+    public void addClasePertany(Clase clase) {
+        this.clasePertany.add(clase);
     }
 
     public int getPuntuacion() {
@@ -169,4 +178,6 @@ public class Usuario implements Serializable {
     public void addTestsPendientes() {
         this.testsPendientes++;
     }
+
+
 }
