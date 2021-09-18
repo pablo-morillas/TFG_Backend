@@ -34,7 +34,7 @@ public class PreguntaController {
 
 
     // - Get todos las preguntas
-    @GetMapping(value = "")
+    @GetMapping(value = "/preguntas")
     public ResponseEntity<List<Pregunta>> getPreguntasTest(@PathVariable(name="testid") int testid) {
 
         Test test = testServices.findById(testid);
