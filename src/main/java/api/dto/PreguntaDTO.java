@@ -3,6 +3,8 @@ package api.dto;
 
 public class PreguntaDTO {
 
+    private String text;
+
     private String respuestaCorrecta;
 
     private String respuestaIncorrecta1;
@@ -14,8 +16,9 @@ public class PreguntaDTO {
     public PreguntaDTO() {
     }
 
-    public PreguntaDTO(String respuestaCorrecta, String respuestaIncorrecta1, String respuestaIncorrecta2,
+    public PreguntaDTO(String text, String respuestaCorrecta, String respuestaIncorrecta1, String respuestaIncorrecta2,
                        String respuestaIncorrecta3) {
+        this.text = text;
         this.respuestaCorrecta = respuestaCorrecta;
         this.respuestaIncorrecta1 = respuestaIncorrecta1;
         this.respuestaIncorrecta2 = respuestaIncorrecta2;
@@ -52,6 +55,14 @@ public class PreguntaDTO {
 
     public void setRespuestaIncorrecta3(String respuestaIncorrecta3) {
         this.respuestaIncorrecta3 = respuestaIncorrecta3;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
 

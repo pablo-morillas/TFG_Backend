@@ -22,13 +22,13 @@ public class Clase implements Serializable {
     private String nombre;
 
     @ManyToOne
-    private String profesor;
+    private Usuario profesor;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "claseid", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="clase")
     @JsonIgnore
-    private Set<Test> tests;
+    private List<Test> tests;
+
 
     @JsonIgnore
     @ManyToMany()
@@ -38,17 +38,17 @@ public class Clase implements Serializable {
     public Clase(){
     }
 
-    public Clase(String profesor, String nombre) {
+    public Clase(Usuario profesor, String nombre) {
         this.profesor = profesor;
         this.nombre = nombre;
     }
 
 
-    public String getProfesor() {
+    public Usuario getProfesor() {
         return profesor;
     }
 
-    public void setProfesor(String profesor) {
+    public void setProfesor(Usuario profesor) {
         this.profesor = profesor;
     }
 
@@ -60,7 +60,7 @@ public class Clase implements Serializable {
         this.participantes.add(alumno);
     }
 
-    public Set<Test> getTests() {
+    public List<Test> getTests() {
         return tests;
     }
 
@@ -85,6 +85,8 @@ public class Clase implements Serializable {
         return "Clase{" +
                 ", nombre='" + nombre + '\'' +
                 ", profesor='" + profesor + '\'' +
+                ", tests='" + tests + '\'' +
+                ", alumnos='" + participantes + '\'' +
                 '}';
     }
 }

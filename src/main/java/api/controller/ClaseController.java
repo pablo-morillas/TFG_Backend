@@ -42,10 +42,9 @@ public class ClaseController {
         }
     }
 
-
     // - Get todos las clases
-    @GetMapping(value = "")
-    public ResponseEntity<List<Clase>> getClasesParticipante(@PathVariable(name="email") String email) {
+    @GetMapping(value = "Part")
+    public ResponseEntity<List<Clase>> getClasesParticipantes(@PathVariable(name="email") String email) {
 
         Usuario usuario = usuarioServices.findByEmail(email);
 
@@ -56,6 +55,8 @@ public class ClaseController {
         }
     }
 
+
+
     //CREATE Clase
     @PostMapping(value = "")
     public ResponseEntity<Clase> addClase(@RequestBody ClaseDTO claseDTO, @PathVariable(name="email") String email) {
@@ -65,7 +66,7 @@ public class ClaseController {
         if(usuarioServices.findByEmail(email) == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        clase.setProfesor(usuarioServices.findByEmail(email).getEmail());
+        clase.setProfesor(usuarioServices.findByEmail(email));
         clase.setNombre(claseDTO.getNombre());
 
         try {
@@ -80,7 +81,7 @@ public class ClaseController {
 
     //DELETE Clase
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteClase(@PathVariable(name = "id") int id) {
+    public ResponseEntity<Void> deleteTest(@PathVariable(name = "id") int id) {
 
 
         Clase clase;
