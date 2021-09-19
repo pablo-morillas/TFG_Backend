@@ -43,6 +43,7 @@ public class ClaseController {
         Usuario alumno = usuarioServices.findByEmail(alumnoAssistenteDTO.getAlumnoAssistenteEmail());
 
         clase.addAlumno(alumno);
+        alumno.addClasePertany(clase);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
