@@ -30,9 +30,10 @@ public class Clase implements Serializable {
     private List<Test> tests;
 
 
-    @JsonIgnore
     @ManyToMany()
-    private List<Usuario> participantes = new ArrayList<>();
+    @JoinColumn(nullable = false)
+    @JsonIgnore
+    private List<Usuario> alumnos;
 
 
     public Clase(){
@@ -52,12 +53,16 @@ public class Clase implements Serializable {
         this.profesor = profesor;
     }
 
-    public List<Usuario> getAlumnos() {
-        return participantes;
+    public List<Usuario> getParticipantes() {
+        return alumnos;
     }
 
     public void addAlumno(Usuario alumno){
-        this.participantes.add(alumno);
+        this.alumnos.add(alumno);
+    }
+
+    public void removeAlumno(Usuario alumno){
+        this.alumnos.remove(alumno);
     }
 
     public List<Test> getTests() {
@@ -70,6 +75,10 @@ public class Clase implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -86,7 +95,7 @@ public class Clase implements Serializable {
                 ", nombre='" + nombre + '\'' +
                 ", profesor='" + profesor + '\'' +
                 ", tests='" + tests + '\'' +
-                ", alumnos='" + participantes + '\'' +
+                ", alumnos='" + alumnos + '\'' +
                 '}';
     }
 }

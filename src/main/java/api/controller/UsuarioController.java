@@ -128,7 +128,7 @@ public class UsuarioController {
         }
     }
 
-    //GET CLASES PARTICIPANTE
+    //GET CLASES PROFESOR
 
     @GetMapping(value = "/{email}/aulas")
     public ResponseEntity<List<Clase>> getAulasUsuario(@PathVariable(name = "email") String email) {
@@ -137,6 +137,20 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             List<Clase> aulas = usuario.getClases();
+
+            return new ResponseEntity<>(aulas, HttpStatus.OK);
+        }
+    }
+
+    //GET CLASES PARTICIPANTE
+
+    @GetMapping(value = "/{email}/aulasPertany")
+    public ResponseEntity<List<Clase>> getAulasPertanyUsuario(@PathVariable(name = "email") String email) {
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            List<Clase> aulas = usuario.getClasesPertany();
 
             return new ResponseEntity<>(aulas, HttpStatus.OK);
         }

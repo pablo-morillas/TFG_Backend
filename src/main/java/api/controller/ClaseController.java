@@ -2,12 +2,9 @@ package api.controller;
 
 import api.dto.AlumnoAssistenteDTO;
 import api.dto.ClaseDTO;
-import api.dto.TestDTO;
 import api.services.ClaseServices;
-import api.services.TestServices;
 import api.services.UsuarioServices;
 import entities.Clase;
-import entities.Test;
 import entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +26,7 @@ public class ClaseController {
     private ClaseServices claseServices;
 
 
-    //CREATE Clase
+    //Añadir participante a Clase
     @PutMapping(value = "")
     public ResponseEntity<Void> addAssistent(@RequestBody AlumnoAssistenteDTO alumnoAssistenteDTO) {
 
@@ -42,35 +39,27 @@ public class ClaseController {
         Clase clase = claseServices.findById(alumnoAssistenteDTO.getClaseId());
         Usuario alumno = usuarioServices.findByEmail(alumnoAssistenteDTO.getAlumnoAssistenteEmail());
 
-        clase.addAlumno(alumno);
-        alumno.addClasePertany(clase);
-
+        try{
+            clase.addAlumno(alumno);
+            claseServices.altaClase(clase);
+        }
+        catch(PersistenceException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // - Get todos las clases
-    @GetMapping(value = "")
-    public ResponseEntity<List<Clase>> getClasesUsuario(@PathVariable(name="email") String email) {
 
-        Usuario usuario = usuarioServices.findByEmail(email);
+    // - Get todos los alumnos de una clase
+    @GetMapping(value = "/{claseid}/alumnos")
+    public ResponseEntity<List<Usuario>> getClasesParticipantes(@PathVariable(name="claseid") int id) {
 
-        if (usuario == null) {
+        Clase clase = claseServices.findById(id);
+
+        if (clase == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(usuario.getClases(), HttpStatus.OK);
-        }
-    }
-
-    // - Get todos las clases
-    @GetMapping(value = "/clasesassist")
-    public ResponseEntity<List<Clase>> getClasesParticipantes(@PathVariable(name="email") String email) {
-
-        Usuario usuario = usuarioServices.findByEmail(email);
-
-        if (usuario == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(usuario.getClasesPertany(), HttpStatus.OK);
+            return new ResponseEntity<>(clase.getParticipantes(), HttpStatus.OK);
         }
     }
 
