@@ -32,7 +32,7 @@ public class Clase implements Serializable {
 
     @JsonIgnore
     @ManyToMany()
-    private Set<Usuario> participantes = new HashSet<>();
+    private List<Usuario> participantes = new ArrayList<>();
 
 
     public Clase(){
@@ -52,7 +52,7 @@ public class Clase implements Serializable {
         this.profesor = profesor;
     }
 
-    public Set<Usuario> getAlumnos() {
+    public List<Usuario> getAlumnos() {
         return participantes;
     }
 
