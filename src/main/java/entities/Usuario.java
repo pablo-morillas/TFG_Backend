@@ -1,6 +1,7 @@
 package entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 import javax.persistence.*;
@@ -11,6 +12,10 @@ import java.util.Set;
 @Entity
 @Table(name="usuarios")
 public class Usuario implements Serializable {
+
+   // @JsonIgnoreProperties(ignoreUnknown = true,
+    //        value = {"clasesPertany"})
+
 
     @Column(name="nombre")
     private String nombre;
@@ -38,12 +43,6 @@ public class Usuario implements Serializable {
     @Column(name="testspendientes")
     private int testsPendientes = 0;
 
-    @Column(name="profileimage")
-    private byte[] image;
-
-    @Column(name="avatarimage")
-    private String avatar;
-
     @Column(name="userrole")
     private String userRole;
 
@@ -52,7 +51,8 @@ public class Usuario implements Serializable {
     private List<Clase> clases;
 
 
-    @ManyToMany(mappedBy = "participantes", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "alumnos", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
     private List<Clase> clasePertany;
 
 
@@ -65,14 +65,6 @@ public class Usuario implements Serializable {
         this.password = password;
         this.email = email;
         this.userRole = userRole;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getAvatar() {
-        return avatar;
     }
 
     public String getNombre() {
@@ -107,9 +99,6 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    public void setImage(byte[] image) { this.image = image; }
-
-    public byte[] getImage() { return image; }
 
     public String getUserRole() {
         return userRole;
@@ -139,6 +128,7 @@ public class Usuario implements Serializable {
         this.clases.add(clase);
     }
 
+    @JsonIgnore
     public List<Clase> getClasesPertany() {
         return clasePertany;
     }

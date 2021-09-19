@@ -1,20 +1,18 @@
 package api.dto;
 
-
-import entities.Usuario;
-
 public class AlumnoAssistenteDTO {
+
     private String alumnoAssistenteEmail;
 
-    private int ClaseId;
+    private int claseId;
 
 
     public AlumnoAssistenteDTO() {
     }
 
-    public AlumnoAssistenteDTO(String alumnoAssistenteEmail, int ClaseId) {
+    public AlumnoAssistenteDTO(String alumnoAssistenteEmail, int claseId) {
         this.alumnoAssistenteEmail = alumnoAssistenteEmail;
-        this.ClaseId = ClaseId;
+        this.claseId = claseId;
     }
 
 
@@ -27,10 +25,10 @@ public class AlumnoAssistenteDTO {
     }
 
     public int getClaseId() {
-        return ClaseId;
+        return claseId;
     }
 
     public void setClaseId(int claseId) {
-        ClaseId = claseId;
+        this.claseId = claseId;
     }
 }
