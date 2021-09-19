@@ -1,5 +1,6 @@
 package api.controller;
 
+import api.dto.AlumnoAssistenteDTO;
 import api.dto.ClaseDTO;
 import api.dto.TestDTO;
 import api.services.ClaseServices;
@@ -28,6 +29,23 @@ public class ClaseController {
     private ClaseServices claseServices;
 
 
+    //CREATE Clase
+    @PutMapping(value = "")
+    public ResponseEntity<Void> addAssistent(@RequestBody AlumnoAssistenteDTO alumnoAssistenteDTO) {
+
+        if(usuarioServices.findByEmail(alumnoAssistenteDTO.getAlumnoAssistenteEmail()) == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(claseServices.findById(alumnoAssistenteDTO.getClaseId()) == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Clase clase = claseServices.findById(alumnoAssistenteDTO.getClaseId());
+        Usuario alumno = usuarioServices.findByEmail(alumnoAssistenteDTO.getAlumnoAssistenteEmail());
+
+        clase.addAlumno(alumno);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     // - Get todos las clases
     @GetMapping(value = "")
@@ -43,7 +61,7 @@ public class ClaseController {
     }
 
     // - Get todos las clases
-    @GetMapping(value = "Part")
+    @GetMapping(value = "/clasesassist")
     public ResponseEntity<List<Clase>> getClasesParticipantes(@PathVariable(name="email") String email) {
 
         Usuario usuario = usuarioServices.findByEmail(email);
