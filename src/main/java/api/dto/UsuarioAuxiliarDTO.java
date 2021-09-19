@@ -14,45 +14,12 @@ public class UsuarioAuxiliarDTO {
 
     private String email;
 
-    public String getAvatar() {
-        return avatar;
-    }
+    private String userRole;
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public int getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
-    }
-
-    public int getPuntos() {
-        return puntos;
-    }
-
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
-    }
-
-    private String avatar;
 
     private int nivel;
 
     private int puntos;
-
-    private byte[] image;
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 
 
     public UsuarioAuxiliarDTO() {
@@ -62,11 +29,7 @@ public class UsuarioAuxiliarDTO {
         this.nombre = user.getNombre();
         this.username = user.getUsername();
         this.email = user.getEmail();
-//        this.nivel = user.getNivel();
-//        this.puntos = user.getPuntos();
-        this.avatar = user.getAvatar();
-        this.image = user.getImage();
-        this.avatar = user.getAvatar();
+        this.userRole = user.getUserRole();
     }
 
     public String getNombre() {
@@ -93,4 +56,11 @@ public class UsuarioAuxiliarDTO {
         this.email = email;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
 }
