@@ -63,6 +63,25 @@ public class ClaseController {
         }
     }
 
+    // DELETE from alumnos
+
+    @DeleteMapping(value = "/{claseid}/{alumnoemail}")
+    public ResponseEntity<Void> deleteAlumnoClase(@PathVariable(name="claseid") int claseid, @PathVariable(name="alumnoemail") String alumnoemail) {
+
+        Clase clase = claseServices.findById(claseid);
+        Usuario user  = usuarioServices.findByEmail(alumnoemail);
+
+        if (clase == null  || user == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else if (!clase.getParticipantes().contains(user)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else{
+            clase.removeAlumno(user);
+            claseServices.altaClase(clase);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
     //CREATE Clase
