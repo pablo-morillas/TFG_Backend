@@ -3,15 +3,11 @@ package api.dto;
 public class UsuarioUpdateCamposDTO {
     private String nombre;
 
-    private String username;
-
-
     public UsuarioUpdateCamposDTO() {
     }
 
-    public UsuarioUpdateCamposDTO(String nombre, String username) {
+    public UsuarioUpdateCamposDTO(String nombre) {
         this.nombre = nombre;
-        this.username = username;
     }
 
     public String getNombre() {
@@ -22,11 +18,4 @@ public class UsuarioUpdateCamposDTO {
         this.nombre = nombre;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }
