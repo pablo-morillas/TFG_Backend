@@ -79,7 +79,7 @@ public class UsuarioController {
 
         usuario.setPuntuacion(puntos + usuario.getPuntuacion());
 
-        usuario.setMaxpuntuacion(puntos + usuario.getMaxpuntuacion());
+        usuario.setMaxpuntuacion(100 + usuario.getMaxpuntuacion());
 
         usuarioServices.updateUsuario(usuario);
         return new ResponseEntity<>(HttpStatus.OK);
