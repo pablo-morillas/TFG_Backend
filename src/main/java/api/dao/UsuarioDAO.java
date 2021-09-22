@@ -11,8 +11,7 @@ import java.io.Serializable;
 
 @Repository("usuariorepository")
 public interface UsuarioDAO extends JpaRepository<Usuario, Serializable> {
-
-    Usuario findByUsername(String username);
+    
     Long deleteByEmail(String email);
 
     @Query("SELECT u FROM Usuario as u WHERE u.email = :email and u.password = :password")

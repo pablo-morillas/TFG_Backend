@@ -6,8 +6,6 @@ import entities.Usuario;
 public class UsuarioPuntosDTO {
     private String nombre;
 
-    private String username;
-
     private String email;
 
     public int getPuntos() {
@@ -34,7 +32,6 @@ public class UsuarioPuntosDTO {
 
     public UsuarioPuntosDTO(Usuario user) {
         this.nombre = user.getNombre();
-        this.username = user.getUsername();
         this.email = user.getEmail();
         this.puntos = user.getPuntuacion();
         this.maxPuntos = user.getMaxpuntuacion();
@@ -49,14 +46,6 @@ public class UsuarioPuntosDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {

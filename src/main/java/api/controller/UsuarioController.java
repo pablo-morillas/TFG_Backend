@@ -58,6 +58,36 @@ public class UsuarioController {
 
     }
 
+    //UPDATE PUNTOS
+    @PutMapping(value= "/{email}/puntos")
+    public ResponseEntity<Void> updatePuntosUsuario(@RequestBody UsuarioPuntosDTO usuarioPuntosDTO, @PathVariable(name="email") String email,
+                                                    @RequestHeader(name="Authorization",required = false) String token) {
+
+        try{
+            if(!decodeJWT(token).equals(email)){
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Usuario  usuario = usuarioServices.findByEmail(email);
+        if (usuario == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        usuario.setPuntuacion(usuarioPuntosDTO.getPuntos() + usuario.getPuntuacion());
+
+        usuario.setMaxpuntuacion(usuarioPuntosDTO.getMaxPuntos() + usuario.getMaxpuntuacion());
+
+        usuarioServices.updateUsuario(usuario);
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
+
     //UPDATE CAMPOS
     @PutMapping(value= "/{email}")
     public ResponseEntity<Void> updateCamposUsuario(@RequestBody UsuarioUpdateCamposDTO usuarioUpdateCamposDTO, @PathVariable(name="email") String email,
@@ -77,7 +107,6 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        usuario.setUsername(usuarioUpdateCamposDTO.getUsername());
         usuario.setNombre(usuarioUpdateCamposDTO.getNombre());
 
         usuarioServices.updateUsuario(usuario);
@@ -162,7 +191,6 @@ public class UsuarioController {
 
         Usuario user = new Usuario();
 
-        user.setUsername(userDTO.getUsername());
         user.setPassword(hashedPassword(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
         user.setNombre(userDTO.getNombre());
@@ -170,9 +198,7 @@ public class UsuarioController {
 
         Usuario usuarioExistente = usuarioServices.findByEmail(user.getEmail());
         if (usuarioExistente == null) {
-            if (usuarioServices.findByUsername(user.getUsername()) != null) {
-                return new ResponseEntity<>("username", HttpStatus.BAD_REQUEST);
-            }
+
             usuarioServices.altaUsuario(user);
             String token = createToken(user.getEmail());
             HttpHeaders httpHeaders = new HttpHeaders();

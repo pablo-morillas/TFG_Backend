@@ -53,10 +53,6 @@ public class UsuarioServicesImpl implements UsuarioServices {
         return usuarioDAO.findAll();
     }
 
-    @Override
-    public Usuario findByUsername(String username) {
-        return usuarioDAO.findByUsername(username);
-    }
 
     @Override
     public Usuario findByEmail(String email) {
