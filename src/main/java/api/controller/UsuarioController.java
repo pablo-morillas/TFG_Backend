@@ -60,7 +60,7 @@ public class UsuarioController {
 
     //UPDATE PUNTOS
     @PutMapping(value= "/{email}/puntos")
-    public ResponseEntity<Void> updatePuntosUsuario(@RequestBody UsuarioPuntosDTO usuarioPuntosDTO, @PathVariable(name="email") String email,
+    public ResponseEntity<Void> updatePuntosUsuario(@RequestBody int puntos, @PathVariable(name="email") String email,
                                                     @RequestHeader(name="Authorization",required = false) String token) {
 
         try{
@@ -77,9 +77,9 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        usuario.setPuntuacion(usuarioPuntosDTO.getPuntos() + usuario.getPuntuacion());
+        usuario.setPuntuacion(puntos + usuario.getPuntuacion());
 
-        usuario.setMaxpuntuacion(usuarioPuntosDTO.getMaxPuntos() + usuario.getMaxpuntuacion());
+        usuario.setMaxpuntuacion(100 + usuario.getMaxpuntuacion());
 
         usuarioServices.updateUsuario(usuario);
         return new ResponseEntity<>(HttpStatus.OK);
