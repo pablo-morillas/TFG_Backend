@@ -12,7 +12,6 @@ public interface UsuarioServices {
     boolean deleteUsuario(Usuario usuario);
     void updateUsuario(Usuario usuario);
     List<Usuario> findAllUsuario();
-    Usuario findByUsername(String username);
     Usuario findByEmail(String email);
     boolean login(String email, String password) throws InvalidKeySpecException, NoSuchAlgorithmException;
 }
