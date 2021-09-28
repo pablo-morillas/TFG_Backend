@@ -1,9 +1,12 @@
 package api.controller;
 
 import api.dto.*;
+import api.services.TestServices;
 import api.services.UsuarioServices;
 import com.ja.security.PasswordHash;
 import entities.Clase;
+import entities.TestRespondido;
+import entities.TestRespondidoID;
 import entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +28,9 @@ public class UsuarioController {
     @Autowired
     @Qualifier("usuarioservices")
     private UsuarioServices usuarioServices;
+
+    private TestServices testServices;
+
 
     public static final String HEADER_AUTHORIZATION_KEY = "Authorization";
 
@@ -242,5 +248,20 @@ public class UsuarioController {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+    }
+
+    @PostMapping(value = "/examenresolt")
+    public ResponseEntity<Void> addExamenResuelto(@RequestBody TestRespondidoDTO testRespondido) throws InvalidKeySpecException, NoSuchAlgorithmException {
+
+
+        if (usuarioServices.findByEmail(testRespondido.getId().getAlumnoId()) == null || testServices.findById(testRespondido.getId().getTestId()) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            TestRespondido test = new TestRespondido();
+            test.setId(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId()));
+            test.setNota(testRespondido.getNota());
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+
     }
 }
