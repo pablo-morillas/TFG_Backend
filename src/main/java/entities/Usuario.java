@@ -61,6 +61,20 @@ public class Usuario implements Serializable {
     )
     private List<TestRespondido> testRespondidos = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "estudiant",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Informe> informesRecibidos = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "professor",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Informe> informesHechos = new ArrayList<>();
+
 
     public Usuario(){
     }
@@ -173,4 +187,21 @@ public class Usuario implements Serializable {
     public void addTestRespondidos(TestRespondido testRespondido) {
         this.testRespondidos.add(testRespondido);
     }
+
+    public List<Informe> getInformesRecibidos() {
+        return informesRecibidos;
+    }
+
+    public List<Informe> getInformesHechos() {
+        return informesHechos;
+    }
+
+    public void addInformesRecibidos(Informe informe) {
+        this.informesRecibidos.add(informe);
+    }
+
+    public void addInformesHechos(Informe informe) {
+        this.informesHechos.add(informe);
+    }
+
 }
