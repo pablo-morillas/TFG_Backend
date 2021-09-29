@@ -14,16 +14,19 @@ public class InformeDTO {
 
     private int notaTreball;
 
+    private String valoracions;
+
 
     public InformeDTO() {
     }
 
-    public InformeDTO(InformeIDDTO id, int notaAssistencia, int notaAtencio, int notaExercicis, int notaTreball){
+    public InformeDTO(InformeIDDTO id, int notaAssistencia, int notaAtencio, int notaExercicis, int notaTreball, String valoracions){
         this.id = id;
         this.notaAssistencia = notaAssistencia;
         this.notaAtencio = notaAtencio;
         this.notaExercicis = notaExercicis;
         this.notaTreball = notaTreball;
+        this.valoracions = valoracions;
     }
 
     public InformeDTO(InformeIDDTO id) {
@@ -68,6 +71,14 @@ public class InformeDTO {
 
     public void setNotaTreball(int notaTreball) {
         this.notaTreball = notaTreball;
+    }
+
+    public String getValoracions() {
+        return valoracions;
+    }
+
+    public void setValoracions(String valoracions) {
+        this.valoracions = valoracions;
     }
 }
 

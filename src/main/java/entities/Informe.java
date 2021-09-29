@@ -35,14 +35,18 @@ public class Informe implements Serializable {
     @Column
     private int notaTreball;
 
+    @Column
+    private String valoracions;
+
     public Informe(){}
 
 
-    public Informe(int notaExercicis, int notaAtencio, int notaAssistencia, int notaTreball){
+    public Informe(int notaExercicis, int notaAtencio, int notaAssistencia, int notaTreball, String valoracions){
         this.notaExercicis = notaExercicis;
         this.notaAssistencia = notaAssistencia;
         this.notaAtencio = notaAtencio;
         this.notaTreball = notaTreball;
+        this.valoracions = valoracions;
     }
 
 
@@ -113,5 +117,13 @@ public class Informe implements Serializable {
 
     public void setProfessor(Usuario professor) {
         this.professor = professor;
+    }
+
+    public String getValoracions() {
+        return valoracions;
+    }
+
+    public void setValoracions(String valoracions) {
+        this.valoracions = valoracions;
     }
 }

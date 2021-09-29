@@ -57,6 +57,7 @@ public class InformeController {
             informe.setNotaAtencio(informeDTO.getNotaAtencio());
             informe.setNotaExercicis(informeDTO.getNotaExercicis());
             informe.setNotaTreball(informeDTO.getNotaTreball());
+            informe.setValoracions(informeDTO.getValoracions());
             informe.setId(new InformeID(informeDTO.getId().getEstudiantId(), informeDTO.getId().getProfessorId(), informeDTO.getId().getFecha()));
             informeServices.altaInforme(informe);
             return new ResponseEntity<>(HttpStatus.CREATED);
