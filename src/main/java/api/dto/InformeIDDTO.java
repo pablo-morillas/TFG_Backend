@@ -10,11 +10,14 @@ public class InformeIDDTO implements Serializable{
 
     private String professorId;
 
+    private String fecha;
+
     private InformeIDDTO(){}
 
-    public InformeIDDTO(String estudiantId, String professorId){
+    public InformeIDDTO(String estudiantId, String professorId, String fecha){
         this.estudiantId = estudiantId;
         this.professorId = professorId;
+        this.fecha = fecha;
     }
 
     public String getEstudiantId() {
@@ -31,5 +34,13 @@ public class InformeIDDTO implements Serializable{
 
     public void setProfessorId(String professorId) {
         this.professorId = professorId;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 }

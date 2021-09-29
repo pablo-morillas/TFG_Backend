@@ -56,4 +56,12 @@ public class TestRespondido implements Serializable {
     public void setNota(int nota) {
         this.nota = nota;
     }
+
+    public void setAlumno(Usuario alumno) {
+        this.alumno = alumno;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
 }

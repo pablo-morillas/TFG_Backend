@@ -43,7 +43,7 @@ public class InformeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             Informe informe = new Informe();
-            informe.setId(new InformeID(informeDTO.getId().getEstudiantId(), informeDTO.getId().getProfessorId()));
+            informe.setId(new InformeID(informeDTO.getId().getEstudiantId(), informeDTO.getId().getProfessorId(), informeDTO.getId().getFecha()));
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }

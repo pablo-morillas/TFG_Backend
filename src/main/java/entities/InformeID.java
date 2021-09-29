@@ -3,7 +3,6 @@ package entities;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 
 @Embeddable
@@ -14,16 +13,15 @@ public class InformeID implements Serializable {
     @Column(name = "professor_email")
     private String professorId;
 
-    private Date fecha;
+    private String fecha;
 
     private InformeID(){
-        this.fecha = new Date();
     }
 
-    public InformeID(String estudiantId, String professorId){
+    public InformeID(String estudiantId, String professorId, String fecha){
         this.estudiantId = estudiantId;
         this.professorId = professorId;
-        this.fecha = new Date();
+        this.fecha = fecha;
     }
 
     public String getEstudiantId() {
@@ -42,11 +40,11 @@ public class InformeID implements Serializable {
         this.professorId = professorId;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

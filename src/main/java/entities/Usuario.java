@@ -59,6 +59,7 @@ public class Usuario implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<TestRespondido> testRespondidos = new ArrayList<>();
 
     @OneToMany(
@@ -66,6 +67,7 @@ public class Usuario implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Informe> informesRecibidos = new ArrayList<>();
 
     @OneToMany(
@@ -73,6 +75,7 @@ public class Usuario implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Informe> informesHechos = new ArrayList<>();
 
 

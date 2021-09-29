@@ -5,10 +5,7 @@ import api.services.TestRespondidoServices;
 import api.services.TestServices;
 import api.services.UsuarioServices;
 import com.ja.security.PasswordHash;
-import entities.Clase;
-import entities.TestRespondido;
-import entities.TestRespondidoID;
-import entities.Usuario;
+import entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
@@ -253,21 +250,16 @@ public class UsuarioController {
         }
     }
 
-    // ADD UN NUEVO EXAMEN RESOLT
-    @PostMapping(value = "/examenresolt")
-    public ResponseEntity<Void> addExamenResuelto(@RequestBody TestRespondidoDTO testRespondido) throws InvalidKeySpecException, NoSuchAlgorithmException {
-
-
-        if (usuarioServices.findByEmail(testRespondido.getId().getAlumnoId()) == null || testServices.findById(testRespondido.getId().getTestId()) == null) {
+    //GET EXAMENS RESOLTS
+    @GetMapping(value = "/{email}/examenresolts")
+    public ResponseEntity<List<TestRespondido>> getExamensResultos(@PathVariable(name = "email") String email){
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else if(testRespondidoServices.findById(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId())) != null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else{
-            TestRespondido test = new TestRespondido();
-            test.setId(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId()));
-            test.setNota(testRespondido.getNota());
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
+        } else {
+            List<TestRespondido> tests = usuario.getTestRespondidos();
 
+            return new ResponseEntity<>(tests, HttpStatus.OK);
+        }
     }
 }
