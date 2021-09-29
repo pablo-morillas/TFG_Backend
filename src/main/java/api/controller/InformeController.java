@@ -37,13 +37,28 @@ public class InformeController {
 
     //CREATE Informe
     @PostMapping(value = "")
-    public ResponseEntity<String> addInforme(@RequestBody InformeDTO informeDTO) {
+    public ResponseEntity<Void> addInforme(@RequestBody InformeDTO informeDTO) {
 
         if (usuarioServices.findByEmail(informeDTO.getId().getEstudiantId()) == null || usuarioServices.findByEmail(informeDTO.getId().getProfessorId()) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
+
+            System.out.println("AQUI PONGO LAS COSAS DEL ID: " + informeDTO.getId().getEstudiantId() + " EL OTRO: " + informeDTO.getId().getProfessorId());
+
+            System.out.println("NOTAS: " + informeDTO.getNotaAssistencia() + " " + informeDTO.getNotaExercicis() + " " + informeDTO.getNotaAtencio() + " " + informeDTO.getNotaTreball());
+
+            System.out.println("FECHA: " + informeDTO.getId().getFecha());
+
+
             Informe informe = new Informe();
+            informe.setEstudiant(usuarioServices.findByEmail(informeDTO.getId().getEstudiantId()));
+            informe.setProfessor(usuarioServices.findByEmail(informeDTO.getId().getProfessorId()));
+            informe.setNotaAssistencia(informeDTO.getNotaAssistencia());
+            informe.setNotaAtencio(informeDTO.getNotaAtencio());
+            informe.setNotaExercicis(informeDTO.getNotaExercicis());
+            informe.setNotaTreball(informeDTO.getNotaTreball());
             informe.setId(new InformeID(informeDTO.getId().getEstudiantId(), informeDTO.getId().getProfessorId(), informeDTO.getId().getFecha()));
+            informeServices.altaInforme(informe);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }

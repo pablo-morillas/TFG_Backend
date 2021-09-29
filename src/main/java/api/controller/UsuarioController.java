@@ -262,4 +262,17 @@ public class UsuarioController {
             return new ResponseEntity<>(tests, HttpStatus.OK);
         }
     }
+
+    //GET Informes
+    @GetMapping(value = "/{email}/informes")
+    public ResponseEntity<List<Informe>> getInformes(@PathVariable(name = "email") String email){
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            List<Informe> informes = usuario.getInformesRecibidos();
+
+            return new ResponseEntity<>(informes, HttpStatus.OK);
+        }
+    }
 }

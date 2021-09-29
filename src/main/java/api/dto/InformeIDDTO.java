@@ -2,6 +2,7 @@ package api.dto;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 public class InformeIDDTO implements Serializable{
@@ -10,11 +11,11 @@ public class InformeIDDTO implements Serializable{
 
     private String professorId;
 
-    private String fecha;
+    private Date fecha;
 
     private InformeIDDTO(){}
 
-    public InformeIDDTO(String estudiantId, String professorId, String fecha){
+    public InformeIDDTO(String estudiantId, String professorId, Date fecha){
         this.estudiantId = estudiantId;
         this.professorId = professorId;
         this.fecha = fecha;
@@ -36,11 +37,11 @@ public class InformeIDDTO implements Serializable{
         this.professorId = professorId;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 }

@@ -1,5 +1,7 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,10 +15,12 @@ public class Informe implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("estudiantId")
+    @JsonIgnore
     private Usuario estudiant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("professorId")
+    @JsonIgnore
     private Usuario professor;
 
     @Column
@@ -48,6 +52,10 @@ public class Informe implements Serializable {
     public String toString() {
         return "Test{" +
                 ", id='" + id + '\'' +
+                ", notaExercicis='" + notaExercicis + '\'' +
+                ", notaAtencio='" + notaAtencio + '\'' +
+                ", notaAssistencia='" + notaAssistencia + '\'' +
+                ", notaTreball='" + notaTreball + '\'' +
                 '}';
     }
 
@@ -89,5 +97,21 @@ public class Informe implements Serializable {
 
     public void setNotaTreball(int notaTreball) {
         this.notaTreball = notaTreball;
+    }
+
+    public Usuario getEstudiant() {
+        return estudiant;
+    }
+
+    public void setEstudiant(Usuario estudiant) {
+        this.estudiant = estudiant;
+    }
+
+    public Usuario getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Usuario professor) {
+        this.professor = professor;
     }
 }
