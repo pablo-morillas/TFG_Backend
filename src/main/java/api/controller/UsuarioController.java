@@ -1,6 +1,7 @@
 package api.controller;
 
 import api.dto.*;
+import api.services.TestRespondidoServices;
 import api.services.TestServices;
 import api.services.UsuarioServices;
 import com.ja.security.PasswordHash;
@@ -30,6 +31,8 @@ public class UsuarioController {
     private UsuarioServices usuarioServices;
 
     private TestServices testServices;
+
+    private TestRespondidoServices testRespondidoServices;
 
 
     public static final String HEADER_AUTHORIZATION_KEY = "Authorization";
@@ -250,13 +253,16 @@ public class UsuarioController {
         }
     }
 
+    // ADD UN NUEVO EXAMEN RESOLT
     @PostMapping(value = "/examenresolt")
     public ResponseEntity<Void> addExamenResuelto(@RequestBody TestRespondidoDTO testRespondido) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
 
         if (usuarioServices.findByEmail(testRespondido.getId().getAlumnoId()) == null || testServices.findById(testRespondido.getId().getTestId()) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
+        } else if(testRespondidoServices.findById(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId())) != null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else{
             TestRespondido test = new TestRespondido();
             test.setId(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId()));
             test.setNota(testRespondido.getNota());

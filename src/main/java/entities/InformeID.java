@@ -16,7 +16,9 @@ public class InformeID implements Serializable {
 
     private Date fecha;
 
-    private InformeID(){}
+    private InformeID(){
+        this.fecha = new Date();
+    }
 
     public InformeID(String estudiantId, String professorId){
         this.estudiantId = estudiantId;

@@ -34,4 +34,8 @@ public class Informe implements Serializable {
     public InformeID getId() {
         return id;
     }
+
+    public void setId(InformeID id) {
+        this.id = id;
+    }
 }
