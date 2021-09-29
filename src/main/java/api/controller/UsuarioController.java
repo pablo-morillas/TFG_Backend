@@ -1,10 +1,11 @@
 package api.controller;
 
 import api.dto.*;
+import api.services.TestRespondidoServices;
+import api.services.TestServices;
 import api.services.UsuarioServices;
 import com.ja.security.PasswordHash;
-import entities.Clase;
-import entities.Usuario;
+import entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +26,11 @@ public class UsuarioController {
     @Autowired
     @Qualifier("usuarioservices")
     private UsuarioServices usuarioServices;
+
+    private TestServices testServices;
+
+    private TestRespondidoServices testRespondidoServices;
+
 
     public static final String HEADER_AUTHORIZATION_KEY = "Authorization";
 
@@ -241,6 +247,32 @@ public class UsuarioController {
             } else {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        }
+    }
+
+    //GET EXAMENS RESOLTS
+    @GetMapping(value = "/{email}/examenresolts")
+    public ResponseEntity<List<TestRespondido>> getExamensResultos(@PathVariable(name = "email") String email){
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            List<TestRespondido> tests = usuario.getTestRespondidos();
+
+            return new ResponseEntity<>(tests, HttpStatus.OK);
+        }
+    }
+
+    //GET Informes
+    @GetMapping(value = "/{email}/informes")
+    public ResponseEntity<List<Informe>> getInformes(@PathVariable(name = "email") String email){
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            List<Informe> informes = usuario.getInformesRecibidos();
+
+            return new ResponseEntity<>(informes, HttpStatus.OK);
         }
     }
 }

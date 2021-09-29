@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -52,6 +53,30 @@ public class Usuario implements Serializable {
     @ManyToMany(mappedBy = "alumnos", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private List<Clase> clasePertany;
+
+    @OneToMany(
+            mappedBy = "alumno",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<TestRespondido> testRespondidos = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "estudiant",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+
+    private List<Informe> informesRecibidos = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "professor",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<Informe> informesHechos = new ArrayList<>();
 
 
     public Usuario(){
@@ -157,5 +182,29 @@ public class Usuario implements Serializable {
         this.testsPendientes++;
     }
 
+
+    public List<TestRespondido> getTestRespondidos() {
+        return testRespondidos;
+    }
+
+    public void addTestRespondidos(TestRespondido testRespondido) {
+        this.testRespondidos.add(testRespondido);
+    }
+
+    public List<Informe> getInformesRecibidos() {
+        return informesRecibidos;
+    }
+
+    public List<Informe> getInformesHechos() {
+        return informesHechos;
+    }
+
+    public void addInformesRecibidos(Informe informe) {
+        this.informesRecibidos.add(informe);
+    }
+
+    public void addInformesHechos(Informe informe) {
+        this.informesHechos.add(informe);
+    }
 
 }

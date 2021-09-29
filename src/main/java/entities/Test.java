@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +26,13 @@ public class Test implements Serializable {
 
     @ManyToOne
     private Clase clase;
+
+    @OneToMany(
+            mappedBy = "test",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TestRespondido> alumnosevaluados = new ArrayList<>();
 
 
     public Test(){
