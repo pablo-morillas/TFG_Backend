@@ -6,6 +6,7 @@ import api.services.TestServices;
 import api.services.UsuarioServices;
 import entities.TestRespondido;
 import entities.TestRespondidoID;
+import entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,18 +33,24 @@ public class TestRespondidoController {
     @PostMapping(value = "")
     public ResponseEntity<Void> addExamenResuelto(@RequestBody TestRespondidoDTO testRespondido) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
-        System.out.println("AQUI VOY A DECIR LOS ID: " + testRespondido.getId().getAlumnoId() + " " + testRespondido.getId().getTestId() + " NOTA: " + testRespondido.getNota());
         if (usuarioServices.findByEmail(testRespondido.getId().getAlumnoId()) == null || testServices.findById(testRespondido.getId().getTestId()) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else if(testRespondidoServices.findById(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId())) != null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else{
             TestRespondido test = new TestRespondido();
-            test.setAlumno(usuarioServices.findByEmail(testRespondido.getId().getAlumnoId()));
+            Usuario estudiante = usuarioServices.findByEmail(testRespondido.getId().getAlumnoId());
+            test.setAlumno(estudiante);
             test.setTest(testServices.findById(testRespondido.getId().getTestId()));
             test.setId(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId()));
             test.setNota(testRespondido.getNota());
             testRespondidoServices.altaTestRespondido(test);
+
+            estudiante.removeTestsPendientes();
+            estudiante.addTestsRealizados();
+            usuarioServices.altaUsuario(estudiante);
+
+
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 

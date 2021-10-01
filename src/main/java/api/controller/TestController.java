@@ -7,6 +7,7 @@ import api.services.UsuarioServices;
 import entities.Clase;
 import entities.Test;
 
+import entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -50,9 +51,19 @@ public class TestController {
 
         Test test = new Test();
 
+        Clase clase = claseServices.findById(claseid);
+
         test.setNombre(testDTO.getNombre());
-        test.setClase(claseServices.findById(claseid));
+        test.setClase(clase);
         testServices.altaTest(test);
+
+        List<Usuario> estudiantes = clase.getParticipantes();
+
+        for (Usuario est : estudiantes) {
+            est.addTestsPendientes();
+            usuarioServices.altaUsuario(est);
+        }
+
 
         return new ResponseEntity<>(test, HttpStatus.CREATED);
     }
