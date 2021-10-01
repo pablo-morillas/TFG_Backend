@@ -182,6 +182,10 @@ public class Usuario implements Serializable {
         this.testsPendientes++;
     }
 
+    public void removeTestsPendientes() {
+        this.testsPendientes--;
+    }
+
 
     public List<TestRespondido> getTestRespondidos() {
         return testRespondidos;
