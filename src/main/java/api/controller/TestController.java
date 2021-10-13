@@ -32,7 +32,7 @@ public class TestController {
     private TestServices testServices;
 
 
-    // - Get todos los tests
+    // - Get todos los tests de la clase
     @GetMapping(value = "")
     public ResponseEntity<List<Test>> getTestsClase(@PathVariable(name="claseid") int claseid) {
 

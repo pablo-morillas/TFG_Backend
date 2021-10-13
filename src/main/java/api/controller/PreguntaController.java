@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value="/api/{email}/{claseid}/{testid}")
+@RequestMapping(value="/api/{email}/{claseid}/{testid}/preguntas")
 public class PreguntaController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class PreguntaController {
 
 
     // - Get todos las preguntas
-    @GetMapping(value = "/preguntas")
+    @GetMapping(value = "")
     public ResponseEntity<List<Pregunta>> getPreguntasTest(@PathVariable(name="testid") int testid) {
 
         Test test = testServices.findById(testid);
@@ -48,7 +48,7 @@ public class PreguntaController {
 
     //CREATE Pregunta
     @PostMapping(value = "")
-    public ResponseEntity<String> addTest(@RequestBody PreguntaDTO preguntaDTO, @PathVariable(name="testid") int testid) {
+    public ResponseEntity<String> addPregunta(@RequestBody PreguntaDTO preguntaDTO, @PathVariable(name="testid") int testid) {
 
         Pregunta pregunta = new Pregunta();
 
