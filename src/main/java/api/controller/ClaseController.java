@@ -39,6 +39,10 @@ public class ClaseController {
         Clase clase = claseServices.findById(alumnoAssistenteDTO.getClaseId());
         Usuario alumno = usuarioServices.findByEmail(alumnoAssistenteDTO.getAlumnoAssistenteEmail());
 
+        if(clase.getParticipantes().contains(alumno)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         try{
             clase.addAlumno(alumno);
             claseServices.altaClase(clase);
