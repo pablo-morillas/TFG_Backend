@@ -44,6 +44,7 @@ public class TestRespondidoController {
             test.setTest(testServices.findById(testRespondido.getId().getTestId()));
             test.setId(new TestRespondidoID(testRespondido.getId().getAlumnoId(), testRespondido.getId().getTestId()));
             test.setNota(testRespondido.getNota());
+            test.setNomTest(testServices.findById(testRespondido.getId().getTestId()).getNombre());
             testRespondidoServices.altaTestRespondido(test);
 
             estudiante.removeTestsPendientes();
