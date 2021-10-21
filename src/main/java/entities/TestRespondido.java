@@ -13,6 +13,10 @@ public class TestRespondido implements Serializable {
     @Column(name="nota")
     private int nota;
 
+
+    @Column(name="nomTest")
+    private String nomTest;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("alumnoId")
     private Usuario alumno;
@@ -26,8 +30,9 @@ public class TestRespondido implements Serializable {
     public TestRespondido(){
     }
 
-    public TestRespondido(int nota) {
+    public TestRespondido(int nota, String nomTest) {
         this.nota = nota;
+        this.nomTest = nomTest;
     }
 
 
@@ -37,6 +42,7 @@ public class TestRespondido implements Serializable {
         return "Test{" +
                 ", id='" + id + '\'' +
                 ", nota='" + nota + '\'' +
+                ", nomTest='" + nomTest + '\'' +
                 '}';
     }
 
@@ -63,5 +69,14 @@ public class TestRespondido implements Serializable {
 
     public void setTest(Test test) {
         this.test = test;
+    }
+
+
+    public String getNomTest() {
+        return nomTest;
+    }
+
+    public void setNomTest(String nomTest) {
+        this.nomTest = nomTest;
     }
 }
