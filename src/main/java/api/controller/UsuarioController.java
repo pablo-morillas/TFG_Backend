@@ -96,7 +96,7 @@ public class UsuarioController {
 
     //UPDATE CAMPOS
     @PutMapping(value= "/{email}")
-    public ResponseEntity<Void> updateCamposUsuario(@RequestBody UsuarioUpdateCamposDTO usuarioUpdateCamposDTO, @PathVariable(name="email") String email,
+    public ResponseEntity<Usuario> updateCamposUsuario(@RequestBody UsuarioUpdateCamposDTO usuarioUpdateCamposDTO, @PathVariable(name="email") String email,
                                                     @RequestHeader(name="Authorization",required = false) String token) {
 
         try{
@@ -116,7 +116,7 @@ public class UsuarioController {
         usuario.setNombre(usuarioUpdateCamposDTO.getNombre());
 
         usuarioServices.updateUsuario(usuario);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
 
     }
 
