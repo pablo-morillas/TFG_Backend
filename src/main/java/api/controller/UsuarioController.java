@@ -94,7 +94,7 @@ public class UsuarioController {
 
 
     @GetMapping(value=  "{email}/numEstudiants")
-    public ResponseEntity<Integer> getNumEstudiants(@PathVariable(name="email") String email){
+    public ResponseEntity<UsuarioInfoProfessorDTO> getNumEstudiants(@PathVariable(name="email") String email){
         Usuario usuario = usuarioServices.findByEmail(email);
         if (usuario == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -102,12 +102,15 @@ public class UsuarioController {
 
         List<Clase> clases = usuario.getClases();
         List<Usuario> usuarios;
-        int numAlumnos = 0;
+        int numEstudiants = 0;
+        int numClasses = 0;
         for (Clase clase : clases) {
             usuarios = clase.getParticipantes();
-            numAlumnos += usuarios.size();
+            numEstudiants += usuarios.size();
+            numClasses += 1;
         }
-        return new ResponseEntity<>(numAlumnos, HttpStatus.OK);
+        UsuarioInfoProfessorDTO infoProfe = new UsuarioInfoProfessorDTO(numEstudiants, numClasses);
+        return new ResponseEntity<>(infoProfe, HttpStatus.OK);
     }
 
 
