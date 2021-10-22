@@ -3,10 +3,6 @@ package api.dto;
 
 import entities.Usuario;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class UsuarioAuxiliarDTO {
     private String nombre;
 
@@ -15,10 +11,6 @@ public class UsuarioAuxiliarDTO {
 
     private String userRole;
 
-
-    private int nivel;
-
-    private int puntos;
 
 
     public UsuarioAuxiliarDTO() {
