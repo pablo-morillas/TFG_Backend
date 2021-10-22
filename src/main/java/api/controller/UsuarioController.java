@@ -93,7 +93,7 @@ public class UsuarioController {
     }
 
 
-    @GetMapping(value=  "/numEstudiants")
+    @GetMapping(value=  "{email}/numEstudiants")
     public ResponseEntity<Integer> getNumEstudiants(@PathVariable(name="email") String email){
         Usuario usuario = usuarioServices.findByEmail(email);
         if (usuario == null){
