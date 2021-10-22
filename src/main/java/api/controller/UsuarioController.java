@@ -93,6 +93,23 @@ public class UsuarioController {
     }
 
 
+    @GetMapping(value=  "/numEstudiants")
+    public ResponseEntity<Integer> getNumEstudiants(@PathVariable(name="email") String email){
+        Usuario usuario = usuarioServices.findByEmail(email);
+        if (usuario == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Clase> clases = usuario.getClases();
+        List<Usuario> usuarios;
+        int numAlumnos = 0;
+        for (Clase clase : clases) {
+            usuarios = clase.getParticipantes();
+            numAlumnos += usuarios.size();
+        }
+        return new ResponseEntity<>(numAlumnos, HttpStatus.OK);
+    }
+
 
     //UPDATE CAMPOS
     @PutMapping(value= "/{email}")
